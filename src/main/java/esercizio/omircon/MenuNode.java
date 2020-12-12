@@ -2,7 +2,7 @@ package esercizio.omircon;
 
 import java.util.List;
 
-public class MenuNode {
+public class MenuNode  {
     private Integer nodeId;
     private String nodeName;
     private String nodeType;
