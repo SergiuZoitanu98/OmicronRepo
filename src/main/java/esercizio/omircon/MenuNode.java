@@ -13,7 +13,9 @@ public class MenuNode  {
     private Long startValidityTs;
     private Long endValidityTs;
     private String tag;
-    private List<MenuNode> nodes;
+    private List<MenuNode> nodes = null;
+    private int depth;
+    private Resource resource;
     public Integer getNodeId() {
         return nodeId;
     }
@@ -120,6 +122,27 @@ public class MenuNode  {
     public void setNodes(List<MenuNode> nodes) {
         this.nodes = nodes;
     }
+
+	public int getDepth() {
+		return depth;
+	}
+
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	public void setRowNum(int i) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Resource getResource() {
+		return resource;
+	}
+
+	public void setResource(Resource resource) {
+		this.resource = resource;
+	}
 
 
 }
