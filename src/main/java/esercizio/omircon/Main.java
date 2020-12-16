@@ -36,26 +36,19 @@ public class Main {
 			
 	
 			int i = 1;
+			int depth = 0;
 			
 			 
 	         File excelFile = new File(aProp.getProperty("filePath"));
              XSSFWorkbook workbook = new XSSFWorkbook();
              Sheet sheet = workbook.createSheet("SeviceMenu");
              Row rowHeader = sheet.createRow(0);
-             rowHeader.createCell(0).setCellValue(aProp.getProperty("profonditaUno"));
-             rowHeader.createCell(1).setCellValue(aProp.getProperty("profonditaDue"));
-             rowHeader.createCell(2).setCellValue(aProp.getProperty("profonditaTre"));
-             rowHeader.createCell(3).setCellValue(aProp.getProperty("profonditaQuattro"));
-             rowHeader.createCell(4).setCellValue(aProp.getProperty("profonditaCinque"));
-             rowHeader.createCell(5).setCellValue(aProp.getProperty("profonditaSei"));
-             rowHeader.createCell(6).setCellValue(aProp.getProperty("nodeId"));
-             rowHeader.createCell(7).setCellValue(aProp.getProperty("nodeName"));
-             rowHeader.createCell(8).setCellValue(aProp.getProperty("nodeType"));
-             rowHeader.createCell(9).setCellValue(aProp.getProperty("groupType"));
-             rowHeader.createCell(10).setCellValue(aProp.getProperty("flowType"));
-             rowHeader.createCell(11).setCellValue(aProp.getProperty("resourceId"));
+             
+            
 			for(MenuNode node : menuContent.getCleanNodes()) {
-				
+				 if(depth < node.getDepth()) {
+					 depth = node.getDepth();
+				 }
 				 Row row = sheet.createRow(i);
                  row.createCell(6).setCellValue(node.getNodeId());
                  row.createCell(7).setCellValue(node.getNodeName());
@@ -69,6 +62,22 @@ public class Main {
                  row.createCell(node.getDepth()).setCellValue("X");
 	             i++;
 			}
+			
+			int l = depth;
+			
+			for (int k = 0; k <= l; k++) {
+			  rowHeader.createCell(k).setCellValue("Profondità "+ k);
+			}
+			
+			 rowHeader.createCell(depth+1).setCellValue(aProp.getProperty("nodeId"));
+             rowHeader.createCell(depth+2).setCellValue(aProp.getProperty("nodeName"));
+             rowHeader.createCell(depth+3).setCellValue(aProp.getProperty("nodeType"));
+             rowHeader.createCell(depth+4).setCellValue(aProp.getProperty("groupType"));
+             rowHeader.createCell(depth+5).setCellValue(aProp.getProperty("flowType"));
+             rowHeader.createCell(depth+6).setCellValue(aProp.getProperty("resourceId"));
+             
+             
+             
 			FileOutputStream out = new FileOutputStream(excelFile);
 			 workbook.write(out);
 			 out.close();
