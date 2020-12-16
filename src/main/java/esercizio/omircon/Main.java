@@ -43,14 +43,16 @@ public class Main {
              XSSFWorkbook workbook = new XSSFWorkbook();
              Sheet sheet = workbook.createSheet("SeviceMenu");
              Row rowHeader = sheet.createRow(0);
-             
-            
+
 			for(MenuNode node : menuContent.getCleanNodes()) {
 				 if(depth < node.getDepth()) {
 					 depth = node.getDepth();
 				 }
 				 Row row = sheet.createRow(i);
-                 row.createCell(6).setCellValue(node.getNodeId());
+				 if(node.getNodeType().equals("service")) {
+	                 row.createCell(6).setCellValue(node.getNodeId());
+
+				 }
                  row.createCell(7).setCellValue(node.getNodeName());
                  row.createCell(8).setCellValue(node.getNodeType());
                  row.createCell(9).setCellValue(node.getGroupType());
