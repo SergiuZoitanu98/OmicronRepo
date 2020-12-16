@@ -48,7 +48,7 @@ public class Main {
              rowHeader.createCell(3).setCellValue(aProp.getProperty("profonditaQuattro"));
              rowHeader.createCell(4).setCellValue(aProp.getProperty("profonditaCinque"));
              rowHeader.createCell(5).setCellValue(aProp.getProperty("profonditaSei"));
-             rowHeader.createCell(6).setCellValue(aProp.getProperty("nodeId"));
+             rowHeader.createCell(6).setCellValue(aProp.getProperty("ServiceId"));
              rowHeader.createCell(7).setCellValue(aProp.getProperty("nodeName"));
              rowHeader.createCell(8).setCellValue(aProp.getProperty("nodeType"));
              rowHeader.createCell(9).setCellValue(aProp.getProperty("groupType"));
@@ -57,7 +57,10 @@ public class Main {
 			for(MenuNode node : menuContent.getCleanNodes()) {
 				
 				 Row row = sheet.createRow(i);
-                 row.createCell(6).setCellValue(node.getNodeId());
+				 if(node.getNodeType().equals("service")) {
+	                 row.createCell(6).setCellValue(node.getNodeId());
+
+				 }
                  row.createCell(7).setCellValue(node.getNodeName());
                  row.createCell(8).setCellValue(node.getNodeType());
                  row.createCell(9).setCellValue(node.getGroupType());
