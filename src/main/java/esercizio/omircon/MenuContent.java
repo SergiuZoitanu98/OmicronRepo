@@ -20,7 +20,8 @@ public class MenuContent {
 	private String version;
 	private List<MenuNode> nodes;
 	private int depth;
-    private int rowNum = 0;
+	private static int maxDepth = 0;
+
     private List<MenuNode> cleanNodes = new ArrayList<MenuNode>();
 	public MenuContent() {
 		super();
@@ -48,7 +49,7 @@ public class MenuContent {
 	public int getDepth() {
 		return depth;
 	}
-	public List<MenuNode> getNodes() {
+	public List<MenuNode> getNodes()	 {
 		return nodes;
 	}
 
@@ -58,33 +59,25 @@ public class MenuContent {
 
 
 
-	public void proccessJson(List<MenuNode> nodes, int depth, int rowNum) {
-		
+	public void proccessJson(List<MenuNode> nodes, int depth) {
+
 		boolean alreadyIncremented = false;
 		for (MenuNode node : nodes) {
-			node.setDepth(depth);
-			try {
-				if(!alreadyIncremented) {
-				depth++;
-				alreadyIncremented = true;
+			if (depth > maxDepth) {
+				maxDepth = depth;
 			}
 			this.setCleanNodes(node);
-			  proccessJson(node.getNodes(), depth, rowNum);
-			} catch(Exception e) {
-				
+			node.setDepth(maxDepth);
+			if (node.getNodes() != null && !node.getNodes().isEmpty()) {
+				proccessJson(node.getNodes(), depth+1);
+			}
 			}
 		}
-	}
 
-	
 
-	public int getRowNum() {
-		return rowNum;
-	}
 
-	public void setRowNum(int rowNum) {
-		this.rowNum = rowNum;
-	}
+
+
 
 	public List<MenuNode> getCleanNodes() {
 		return cleanNodes;
@@ -93,6 +86,7 @@ public class MenuContent {
 	public void setCleanNodes(MenuNode node) {
 		
 		this.cleanNodes.add(node);
+
 		
 	}
 }

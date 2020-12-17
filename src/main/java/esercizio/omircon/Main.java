@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -30,7 +31,7 @@ public class Main {
 			Gson gson = new Gson();
 			MenuContent menuContent = gson.fromJson(reader, MenuContent.class);
 			List<MenuNode> lista = menuContent.getNodes();
-			menuContent.proccessJson(lista,0,1);
+			menuContent.proccessJson(lista,0);
 			Files.createDirectories(Paths.get(aProp.getProperty("outputFolderPath")));
 			 
 			
@@ -41,7 +42,8 @@ public class Main {
 			 
 	         File excelFile = new File(aProp.getProperty("filePath"));
              XSSFWorkbook workbook = new XSSFWorkbook();
-             Sheet sheet = workbook.createSheet("SeviceMenu");
+
+             Sheet sheet = workbook.createSheet("SeviceMenu"+menuContent.getVersion());
              Row rowHeader = sheet.createRow(0);
 
 			for(MenuNode node : menuContent.getCleanNodes()) {
@@ -50,25 +52,30 @@ public class Main {
 				 }
 				 Row row = sheet.createRow(i);
 				 if(node.getNodeType().equals("service")) {
-	                 row.createCell(6).setCellValue(node.getNodeId());
+	                 row.createCell(5).setCellValue(node.getNodeId());
 
 				 }
-                 row.createCell(7).setCellValue(node.getNodeName());
-                 row.createCell(8).setCellValue(node.getNodeType());
-                 row.createCell(9).setCellValue(node.getGroupType());
-                 row.createCell(10).setCellValue(node.getFlowType());
+                 row.createCell(6).setCellValue(node.getNodeName());
+                 row.createCell(7).setCellValue(node.getNodeType());
+                 row.createCell(8).setCellValue(node.getGroupType());
+                 row.createCell(9).setCellValue(node.getFlowType());
                  if(node.getResource() != null) {
-                	 row.createCell(11).setCellValue(node.getResource().getId());
+                	 row.createCell(10).setCellValue(node.getResource().getId());
                  }
                  
                  row.createCell(node.getDepth()).setCellValue("X");
 	             i++;
+				sheet.autoSizeColumn(i);
+
+
 			}
 			
 			int l = depth;
 			
 			for (int k = 0; k <= l; k++) {
-			  rowHeader.createCell(k).setCellValue("Profondità "+ k);
+			  rowHeader.createCell(k).setCellValue( k);
+
+
 			}
 			
 			 rowHeader.createCell(depth+1).setCellValue(aProp.getProperty("nodeId"));
@@ -77,9 +84,12 @@ public class Main {
              rowHeader.createCell(depth+4).setCellValue(aProp.getProperty("groupType"));
              rowHeader.createCell(depth+5).setCellValue(aProp.getProperty("flowType"));
              rowHeader.createCell(depth+6).setCellValue(aProp.getProperty("resourceId"));
-             
-             
-             
+
+
+			sheet.autoSizeColumn(6);
+
+
+
 			FileOutputStream out = new FileOutputStream(excelFile);
 			 workbook.write(out);
 			 out.close();
