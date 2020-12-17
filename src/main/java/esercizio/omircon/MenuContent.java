@@ -19,10 +19,10 @@ import com.google.gson.Gson;
 public class MenuContent {
 	private String version;
 	private List<MenuNode> nodes;
-	private int depth;
-	private static int maxDepth = 0;
 
-    private List<MenuNode> cleanNodes = new ArrayList<MenuNode>();
+	private  int maxDepth = 0;
+
+	private List<MenuNode> cleanNodes = new ArrayList<MenuNode>();
 	public MenuContent() {
 		super();
 	}
@@ -39,16 +39,11 @@ public class MenuContent {
 	}
 
 
-	
+
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	public void setDepth(int depth) {
-		this.depth = depth;
-	}
-	public int getDepth() {
-		return depth;
-	}
+
 	public List<MenuNode> getNodes()	 {
 		return nodes;
 	}
@@ -61,18 +56,17 @@ public class MenuContent {
 
 	public void proccessJson(List<MenuNode> nodes, int depth) {
 
-		boolean alreadyIncremented = false;
+		if (depth > maxDepth) {
+			maxDepth = depth;
+		}
 		for (MenuNode node : nodes) {
-			if (depth > maxDepth) {
-				maxDepth = depth;
-			}
 			this.setCleanNodes(node);
-			node.setDepth(maxDepth);
+			node.setDepth(depth);
 			if (node.getNodes() != null && !node.getNodes().isEmpty()) {
 				proccessJson(node.getNodes(), depth+1);
 			}
-			}
 		}
+	}
 
 
 
@@ -84,9 +78,9 @@ public class MenuContent {
 	}
 
 	public void setCleanNodes(MenuNode node) {
-		
+
 		this.cleanNodes.add(node);
 
-		
+
 	}
 }
