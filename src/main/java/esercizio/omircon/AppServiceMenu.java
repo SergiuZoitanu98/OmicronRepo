@@ -18,7 +18,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gson.Gson;
 
-public class Main {
+public class AppServiceMenu {
 	public static void main(String[] args) {
 
 
@@ -86,7 +86,10 @@ public class Main {
 			rowHeader.createCell(depth+6).setCellValue(aProp.getProperty("resourceId"));
 
 
-			sheet.autoSizeColumn(6);
+			Integer columns = new Integer(rowHeader.getLastCellNum());
+			for(int j = 0; j<columns;j++){
+				sheet.autoSizeColumn(j);
+			}
 
 
 
